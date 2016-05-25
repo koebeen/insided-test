@@ -5,4 +5,5 @@ To get this up and running:
   - git clone https://github.com/koebeen/insided-test.git .
   - npm install
   - npm run start
+
 Now the app should run on localhost:3000
