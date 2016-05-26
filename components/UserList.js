@@ -11,27 +11,9 @@ const UserList = ({ users, dispatch }) => {
   const toggleAll = (e) => {
     dispatch(toggleAllUsers(e.target.checked))
   }
-  let headers;
-  const removeHeaderClasses = () => {
-    let headers = headers || document.querySelectorAll('.table-header-link');
-    for(let i = 0; i < headers.length; i++) {
-      headers[i].classList.remove('selected-asc', 'selected-desc')
-    }
-  }
+
   const toggleHeader = (e) => {
     e.preventDefault();
-    let classes = e.target.classList;
-    if(classes.contains('selected-desc')){
-      removeHeaderClasses();
-      classes.add('selected-asc');
-    } else if(classes.contains('selected-asc')){
-      removeHeaderClasses();
-      classes.add('selected-desc');
-    } else {
-      removeHeaderClasses();
-      classes.add('selected-desc');
-    }
-    e.target.classList.add('selected')
     dispatch(filterUsers(e.target.innerText.toLowerCase()))
   }
 

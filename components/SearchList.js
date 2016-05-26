@@ -5,9 +5,9 @@ import { tickBoxValues, userList } from '../data/data'
 
 let cb = 0;
 
-const SearchList = ({ searches, ui, dispatch }) => {
+const SearchList = ({ searches, ui, calls }) => {
   const handleClick = () => {
-    dispatch(addSearch())
+    calls.addSearch();
   }
 
   return (
@@ -18,7 +18,7 @@ const SearchList = ({ searches, ui, dispatch }) => {
             <Search
               key={search.id}
               {...search}
-              dispatch={dispatch}
+              calls={calls}
               ui={ui}
             />
           )}
@@ -44,14 +44,14 @@ const SearchList = ({ searches, ui, dispatch }) => {
 SearchList.propTypes = {
   searches: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string.isRequired,
-    completed: PropTypes.bool.isRequired,
     value: PropTypes.shape({
       filter1: PropTypes.string.isRequired,
       filter2: PropTypes.string.isRequired,
       filter3: PropTypes.string.isRequired
     }).isRequired
   }).isRequired).isRequired,
-  dispatch: PropTypes.func.isRequired
+  ui: PropTypes.object.isRequired,
+  calls: PropTypes.object.isRequired
 }
 
 export default SearchList

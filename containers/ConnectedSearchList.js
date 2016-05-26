@@ -1,5 +1,8 @@
 import { connect } from 'react-redux'
 import SearchList from '../components/SearchList'
+import { bindActionCreators } from 'redux'
+// import { addSearch, updateFilter1, updateFilter2, updateSearchDate, deleteSearch, multiSelectEvent, addTag, removeTag } as Actions from '../actions'
+import * as Actions from '../actions'
 
 const mapStateToProps = (state) => {
   return {
@@ -10,7 +13,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatch
+    calls: bindActionCreators(Actions, dispatch)
   }
 }
 

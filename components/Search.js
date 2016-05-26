@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react'
 import Select from 'react-select-plus'
-import { updateSearchDate, updateFilter1, updateFilter2, deleteSearch, addTag, removeTag, multiSelectEvent } from '../actions'
 
 import { Row, Col } from 'react-bootstrap';
 import 'style!css!postcss!sass!react-select-plus/scss/default.scss'
@@ -18,14 +17,14 @@ const getOptions = (values) =>
 const getDate = (date) =>
   moment(date, "DD-MM-YYYY")
 
-const Search = ({ dispatch, completed, id, value, ui }) => {
-  const handleDateChange = (date, more, evenmore) => {
+const Search = ({ calls, ui, id, value }) => {
+  const handleDateChange = (date) => {
       if(date && date !== '')
-        dispatch(updateSearchDate(date.format('DD-MM-YYYY'), id))
+        calls.updateSearchDate(date.format('DD-MM-YYYY'), id)
   }
   const handleFilter1Change = (item) => {
-    dispatch(updateFilter1(item.value, id))
-    dispatch(addTag(item.value, id))
+    calls.updateFilter1(item.value, id)
+    calls.addTag(item.value, id)
 
   }
   const handleFilter2Change = (items) => {
@@ -37,20 +36,18 @@ const Search = ({ dispatch, completed, id, value, ui }) => {
     } else {
       value = items.value;
     }
-    dispatch(updateFilter2(value, id))
+    calls.updateFilter2(value, id)
   }
   const showIf = (type) => {
     return value.filter1 === type ? '' : 'hidden'
   }
 
-  const toolbar = document.querySelector('.toolbar')
-
   /* multi select uncheck all functionality */
   const onOpen = () => {
-    dispatch(multiSelectEvent(true));
+    calls.multiSelectEvent(true);
   }
   const hideToolbar = () => {
-    dispatch(multiSelectEvent(false))
+    calls.multiSelectEvent(false)
   }
   const onClose = () => {
     setTimeout(
@@ -58,8 +55,8 @@ const Search = ({ dispatch, completed, id, value, ui }) => {
     )
   }
   const deleteButtonClick = () => {
-    dispatch(deleteSearch(id))
-    dispatch(removeTag(id))
+    calls.deleteSearch(id)
+    calls.removeTag(id)
   }
   const checkAll = (e) => {
     e.preventDefault()
@@ -75,7 +72,7 @@ const Search = ({ dispatch, completed, id, value, ui }) => {
     e.preventDefault()
     handleFilter2Change('')
   }
-  const showToolBar = (toggle) => {
+  const showToolBarIf = (toggle) => {
     return toggle ? '' : 'hidden';
   }
   return (
@@ -121,7 +118,7 @@ const Search = ({ dispatch, completed, id, value, ui }) => {
           value={value.filter2}
           placeholder="select one or more options"
         />
-        <div className={'toolbar ' + showToolBar(ui.multiSelectOpen)}>
+        <div className={'toolbar ' + showToolBarIf(ui.multiSelectOpen)}>
           <div className="toolbar-inner">
             <a href="#" onClick={checkAll} className="toolbar-check-all">Check all</a>
             <a href="#" onClick={uncheckAll} className="toolbar-uncheck-all">Uncheck all</a>
@@ -144,8 +141,8 @@ const Search = ({ dispatch, completed, id, value, ui }) => {
 )}
 
 Search.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  completed: PropTypes.bool.isRequired,
+  calls: PropTypes.object.isRequired,
+  ui: PropTypes.object.isRequired,
   value: PropTypes.shape({
     filter1: PropTypes.string.isRequired,
     filter2: PropTypes.string.isRequired,

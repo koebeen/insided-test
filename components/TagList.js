@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import { addTag, removeTag, removeTags, deleteSearch, deleteSearches } from '../actions'
+import { removeTag, removeTags, deleteSearch, deleteSearches } from '../actions'
 
 const TagList = ({ tags, dispatch }) => {
   const remove = (searchId, tagId) => {

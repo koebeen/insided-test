@@ -9,18 +9,28 @@ const tag = (state, action) => {
         searchId: action.searchId
       }
       return item;
+    case 'UPDATE_TAG':
+      // assuming only the name can change
+      return update(state, {
+        name: {$set: action.value}
+      })
     default:
       return state
   }
 }
 
 const tags = (state = [], action) => {
+  let tagFound = false;
   switch (action.type) {
     case 'ADD_TAG':
-      let hits = state.filter(item => {
-        return item.searchId === action.searchId}
-      );
-      if(hits.length)
+      let state = state.map(item => {
+        if(item.searchId === action.searchId) {
+          tagFound = true;
+          return tag(item, {type: 'UPDATE_TAG', value: action.value})
+        }
+        return item;
+      })
+      if(tagFound)
         return state;
 
       return [
